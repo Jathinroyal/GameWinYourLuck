@@ -14,29 +14,56 @@ const gifts = [
 const eve=document.getElementById("eve");
 const result=document.getElementById("result");
 const data=document.getElementById("outside");
+const tention=new Audio("Intention.mp3");
+const win=new Audio("winning bell.mp3");
  eve.addEventListener('click',function(){
-   let ran= Math.random()*50;
-  let random=Math.floor(ran);
-   result.textContent=`Congraculations you won ${gifts[random]}`;
- });
+ 
+  result.textContent="Please wait..."
+  
 
- gifts.forEach(function(value){
-  //<div class="inside"></div>
-  const boxElements=`<div class="inside">${value}</div>`;
+  let count=0;
+   const stop=setInterval(function(){
+    
+    count++;
+   
+        
+    let ran= Math.random()*50;
+    let randoma=Math.floor(ran);
+   
+    
+    for(let i=0;i<50;i++){ 
+      if(i==randoma){
+    document.getElementById(i).classList.add("borderradiuss");
+    tention.currentTime=0;
+    tention.play();
+      }
+      else{
+        document.getElementById(i).classList.remove("borderradiuss");
+        
+      }
+      
+    }
+    
+   if(count==5){
+    
+    for(let i=0;i<50;i++){
+      document.getElementById(i).classList.remove("winning");
+     }
+     tention.pause();
+     let ran= Math.random()*50;
+    let random=Math.floor(ran);
+    result.textContent=`Congratulations you won ${gifts[random]}`;
+    document.getElementById(randoma).classList.remove("borderradiuss");
+    win.play();
+  document.getElementById(random).classList.add("winning");
+    clearInterval(stop);
+   }
+   },1000);
+});
+ 
+
+ gifts.forEach(function(value,i){
+  const boxElements=`<div class="inside" id="${i}">${value}</div>`;
   data.insertAdjacentHTML("beforeend",boxElements);
  });
- //foreach //map //reduce
-//   gifts.forEach(function(values){
-// console,console.log(values);
 
-//   });
-//   gifts.map(function(values){
-// return values.toUpperCase();
-//   });
-
-//   const marks=[10,20,30];
-//   let con=marks.reduce(function(pre,cur){
-    
-//      return pre+cur;
-//   },10);
-//   console.log(con);
